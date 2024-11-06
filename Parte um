@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+// Matrizes de Strings
+char cpfs[5][12] = {
+    "12345678910",
+    "22124085611",
+    "52124009312",
+    "22124071613",
+    "11122233344"  // CPF do gerente
+};
+
+char senhas[5][7] = {
+    "123456",
+    "234567",
+    "345678",
+    "456789",
+    "000000"  // Senha do gerente
+};
+
+char nomes[5][20] = {
+    "Analiza Julia",
+    "Ana Lima",
+    "Elizabeth Kruger",
+    "Julia Barreto",
+    "Gerente"  // Nome do ADM
+};
+
+// Funções para gerenciamento de investidores
+void cadastrar_investidor();
+void excluir_investidor();
+
+// Função para menu do gerente
+void menu_gerente() {
+    int opcao_menu_gerente;
+
+    while (1) {
+        printf("==----------------------------==\n");
+        printf("Menu Gerente: \n");
+        printf("1. Cadastrar novo investidor\n");
+        printf("2. Excluir investidor\n");
+        printf("3. Sair\n");
+        printf("==----------------------------==\n");
+        printf("Escolha sua opção: ");
+        scanf("%d", &opcao_menu_gerente);
+
+        switch (opcao_menu_gerente) {
+            case 1:
+                cadastrar_investidor();
+                break;
+            case 2:
+                excluir_investidor();
+                break;
+            case 3:
+                return; // Sai do menu e retorna à função de login
+            default:
+                printf("Opção inválida. Tente novamente.\n");
+                break;
+        }
+    }
+}
+
+// Função para cadastrar um novo investidor
+void cadastrar_investidor() {
+    char cpf_novo[12], senha_novo[7], nome_novo[20];
+    int indice;
+
+    // Encontra o próximo espaço disponível
+    for (indice = 0; indice < 5; indice++) {
+        if (cpfs[indice][0] == '\0') {
+            break;
+        }
+    }
+
+    if (indice >= 4) {
+        printf("Limite de investidores atingido.\n");
+        return;
+    }
+
+    printf("Digite o nome do novo investidor: ");
+    scanf("%s", nome_novo);
+    printf("Digite o CPF do novo investidor: ");
+    scanf("%s", cpf_novo);
+    printf("Digite a senha do novo investidor: ");
+    scanf("%s", senha_novo);
+
+    // Adiciona os dados do novo investidor
+    strcpy(nomes[indice], nome_novo);
+    strcpy(cpfs[indice], cpf_novo);
+    strcpy(senhas[indice], senha_novo);
+
+    printf("Investidor cadastrado com sucesso!\n");
+}
+
+// Função para excluir um investidor
+void excluir_investidor() {
+    char cpf_excluir[12];
+    int i, encontrado = 0;
+
+    printf("Digite o CPF do investidor a ser excluído: ");
+    scanf("%s", cpf_excluir);
+
+    // Encontra o investidor e exclui
+    for (i = 0; i < 4; i++) {  // O gerente sempre será o último na lista
+     
